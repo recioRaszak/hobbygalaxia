@@ -42,3 +42,11 @@ function lottie_files_player_script()
 	wp_enqueue_script('lottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', false, false, true);
 }
 add_action('wp_enqueue_scripts', 'lottie_files_player_script');
+
+function cc_mime_types($mimes) {
+	$mimes['json'] = 'application/json';
+	$mimes['svg'] = 'image/svg+xml';
+	return $mimes;
+	}
+	
+	add_filter('upload_mimes', 'cc_mime_types');
