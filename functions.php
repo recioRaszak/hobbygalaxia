@@ -37,3 +37,9 @@ add_filter( 'image_size_names_choose', function() {
 add_filter( 'woocommerce_thumbnail_size', function( $size ) {
     return 'thumbnail';
 } );
+
+function lottie_files_player_script()
+{
+	wp_enqueue_script('lottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', false, false, true);
+}
+add_action('wp_enqueue_scripts', 'lottie_files_player_script');
