@@ -3,7 +3,6 @@ add_filter( 'image_size_names_choose', function() {
 	return [
 		'thumbnail'    => __( 'Thumbnail', 'textdomain' ),
 		'medium'       => __( 'Medium', 'textdomain' ),
-		'medium_large' => __( 'Medium Large', 'textdomain' ),
 		'large'        => __( 'Large', 'textdomain' ),
 		'full'         => __( 'Full Size', 'textdomain' ),
 	];
