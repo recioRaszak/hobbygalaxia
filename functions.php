@@ -44,6 +44,7 @@ function lottie_files_player_script()
 add_action('wp_enqueue_scripts', 'lottie_files_player_script');
 
 function cc_mime_types($mimes) {
+	$mimes['xla|xls|xlt|xlw'] = 'application/vnd.ms-excel';
 	$mimes['json'] = 'application/json';
 	$mimes['svg'] = 'image/svg+xml';
 	return $mimes;
