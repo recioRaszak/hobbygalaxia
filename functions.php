@@ -48,6 +48,20 @@ function cc_mime_types($mimes) {
 	$mimes['json'] = 'application/json';
 	$mimes['svg'] = 'image/svg+xml';
 	return $mimes;
+}
+
+add_filter('upload_mimes', 'cc_mime_types');
+
+
+function external_mediaurl($wp_get_attachment_url){
+	$external_mediadir = 'https://cachitoswp.com/hobbygalaxia_uploads/';
+	$filename = basename($wp_get_attachment_url );
+	$newurl = $external_mediadir.$filename;
+	if (!is_admin() ) {
+		
+		return $newurl;
+	} else {
+		return $wp_get_attachment_url;
 	}
-	
-	add_filter('upload_mimes', 'cc_mime_types');
+}
+add_filter('wp_get_attachment_url', 'external_mediaurl');
