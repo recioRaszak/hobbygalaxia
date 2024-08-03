@@ -36,12 +36,8 @@ add_filter( 'image_size_names_choose', function() {
 add_filter( 'woocommerce_thumbnail_size', function( $size ) {
     return 'thumbnail';
 } );
+/*
 
-function lottie_files_player_script()
-{
-	wp_enqueue_script('lottie-js', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', false, false, true);
-}
-add_action('wp_enqueue_scripts', 'lottie_files_player_script');
 
 function cc_mime_types($mimes) {
 	$mimes['xla|xls|xlt|xlw'] = 'application/vnd.ms-excel';
@@ -53,6 +49,7 @@ function cc_mime_types($mimes) {
 add_filter('upload_mimes', 'cc_mime_types');
 
 
+/*
 function external_mediaurl($wp_get_attachment_url){
 	$external_mediadir = 'https://cachitoswp.com/hobbygalaxia_uploads/';
 	$filename = basename($wp_get_attachment_url );
@@ -65,3 +62,25 @@ function external_mediaurl($wp_get_attachment_url){
 	}
 }
 add_filter('wp_get_attachment_url', 'external_mediaurl');
+*/
+
+
+
+// Load our function when hook is set
+add_action( 'pre_get_posts', 'rc_modify_query_product' );
+
+// Create a function to excplude some categories from the main query
+function rc_modify_query_product( $query ) {
+
+	// Check if on frontend and main query is modified
+	if ( ! is_admin() && $query->get_post_type() == 'product') {
+        $query->set( 'posts_per_page', '40' );
+    } // end if
+}
+
+// enable acf shortcodes
+
+add_action( 'acf/init', 'set_acf_settings' );
+function set_acf_settings() {
+    acf_update_setting( 'enable_shortcode', true );
+}
