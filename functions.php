@@ -88,7 +88,14 @@ add_filter('woocommerce_thumbnail_size', function ($size) {
 	return 'thumbnail';
 });
 
-
+/**
+ * Function to return new placeholder image URL.
+ */
+function growdev_custom_woocommerce_placeholder( $image_url ) {
+	$image_url = 'https://hobbygalaxia.b-cdn.net/hobbygalaxia-image-placeholder.png';  // change this to the URL to your custom placeholder
+	return $image_url;
+}
+add_filter( 'woocommerce_placeholder_img_src', 'growdev_custom_woocommerce_placeholder', 10 );
 
 
 /*
@@ -149,7 +156,11 @@ function footerInlineScript()
 		jQuery(document).ready(function ($) {
 
 			function provisionalImages() {
-				$('img.woocommerce-placeholder').each(function () {
+				$("img").bind("error", function (e) { 
+					var $this = $(this); 
+					$(this).addClass("error"); 
+				}); 
+				$('img.woocommerce-placeholder,img.failedtoload,img.error').each(function () {
 					const thisImg = $(this);
 
 					const productLI = $(thisImg).parents('li');
@@ -167,14 +178,50 @@ function footerInlineScript()
 				})
 			}
 			setTimeout(provisionalImages, 1000);
+
 			document.addEventListener('facetwp-loaded', function () {
-				provisionalImages();
+				function FWPprovisionalImages() {
+					$("img").bind("error", function (e) { 
+						var $this = $(this); 
+						$(this).addClass("error"); 
+					}); 
+					$('img.woocommerce-placeholder,img.failedtoload,img.error').each(function () {
+						const thisImg = $(this);
+
+						const productLI = $(thisImg).parents('li');
+						const picURL = $(productLI).find('input[name="old_photo_url"]').val();
+						if (picURL != 'Undefined' && picURL != '') {
+							console.log('URL: ' + picURL);
+							$(thisImg).removeAttr('srcset');
+							$(thisImg).removeAttr('data-src');
+							$(thisImg).removeAttr('data-srcset');
+							$(thisImg).removeAttr('data-sizes');
+							$(thisImg).attr('src', picURL);
+
+						}
+
+					})
+				}
+				FWPprovisionalImages();
 			});
+			<?php
+			if ( is_singular('product') ) {
+				$product_postid = get_the_ID();
+				$external_image_url = get_field('url_eterna_img', $product_postid);
+				?>
+				function singleProductFixImage() {
+				$('.woocommerce-product-gallery__image--placeholder img').removeClass('lazy').removeAttr('data-src');
+				$('.woocommerce-product-gallery__image img.error').attr('src','<?php echo $external_image_url;?>');
+				}
+				setTimeout(singleProductFixImage, 500);
+				<?php
+			}
+			?>
+
 		});
 
 	</script>
 	<?php
-
 }
 add_action('wp_footer', 'footerInlineScript');
 
@@ -206,7 +253,7 @@ function custom_code() {
 
 
 
-function print_child_terms($parent_term, $max_items = -1)
+function print_child_terms($parent_term, $max_items = 999, $more = true)
 {
 	$child_terms = get_terms(
 		array(
@@ -224,7 +271,8 @@ function print_child_terms($parent_term, $max_items = -1)
 			echo '<li><a href="' . esc_url($term_link) . '">' . esc_html($term->name) . '</a></li>';
 		}
 		echo '</ul>';
-		echo '<div class="viewall-link" style="font-size:0.8rem"><a href="' . get_term_link($parent_term) . '">' . __("Ver todo", "hobbygalaxia") . '&nbsp;<span>→</span></a></div>';
+		
+		if ($more) echo '<div class="viewall-link" style="font-size:0.8rem"><a href="' . get_term_link($parent_term) . '">' . __("Ver todo", "hobbygalaxia") . '&nbsp;<span>→</span></a></div>';
 	}
 }
 /* USAGE IN BLOCKS

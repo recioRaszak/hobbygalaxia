@@ -1,10 +1,26 @@
 :where(.wp-site-blocks *:focus) {
     outline: none
   }
+
+.archive main:where(.wp-site-blocks) > *,
+.archive main {
+  margin-block-start: 0;
+}
+
+@import "woocommerce-cart-borders.scss";
+
+body, p {
+  font-weight: 300;
+}
+strong,b {
+  font-weight: 600;
+}
   
   .hg-section {
     padding: 45px 10px !important;
     overflow: hidden;
+    margin-top:0;
+    margin-bottom:0;
   }
   
   @media(min-width:640px) {
@@ -102,6 +118,57 @@
       box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
     }
   
+  }
+
+  .featured-products {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+
+  .featured-products .wc-block-featured-product {
+    align-content: flex-end;
+    align-items: flex-end;
+    border-radius:5px!important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 6;
+
+    .wc-block-featured-product__wrapper {
+      z-index:2;
+      align-items: flex-end;
+      align-content: flex-end;
+    }
+    .wc-block-featured-product__title {
+      font-size:1.22rem!important;
+      @media(min-width:640px) {
+        font-size:1.33rem!important;
+      }
+    }
+    
+  }
+
+  .featured-products .wc-block-featured-product .background-dim__overlay {
+    background-color:transparent!important;
+    height:50%;
+    width:100%;
+    content:""!important;
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+    right:0;
+    //color:rgb(32, 56, 182);
+    background:linear-gradient(180deg,#00000000 0%,rgba(32, 56, 182,0.4) 25%,rgba(32, 56, 182,0.88) 100%);
+    z-index:1;
+  }
+
+  .featured-products .wc-block-featured-product img {
+    filter:saturate(1.3);
+  }
+  .featured-products .wc-block-featured-product .wp-element-button {
+    border:1px solid #fff!important;
+    font-size:0.8rem!important;
+    background-color: transparent!important;
+    white-space:nowrap;
   }
   
   
@@ -232,18 +299,27 @@
   
   
   
-  .wc-block-product-categories-list--depth-0 {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 1.15rem;
-  }
+  
   
   .wc-block-product-categories-list-item {
     margin: 0 0 10px 0;
     padding-right: 40px;
     position: relative;
     z-index: 1;
+    font-size: 13px;
+    @media(min-width:1024px) {
+      font-size: 1rem;
+    }
+  }
+
+  .wc-block-product-categories-list--depth-0 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    @media(min-width:1024px) {
+      font-size: 1.15rem;
+    }
   }
   
   .wc-block-product-categories-list--depth-0>li {
@@ -282,7 +358,10 @@
   }
   
   .wc-block-product-categories-list-item svg {
-    width: 30px;
+    width: 24px;
+    @media(min-width:1024px) {
+      width: 30px;
+    }
   }
   
   .paginationblock {
@@ -334,6 +413,7 @@
   @media(min-width:600px) {
     .buscador-btn--label {
       display: inline;
+      font-weight: 500;
     }
   
     .buscador-btn {
@@ -368,6 +448,12 @@
     stroke-width: 1px;
   }
   
+  :root :where(.wp-element-button:hover, .wp-block-button__link:hover) {
+    background-color: var(--wp--preset--color--primary);
+    border-color: var(--wp--preset--color--contrast-2);
+    border-color: var(--wp--preset--color--primary);
+    color: var(--wp--preset--color--background);
+  }
   
   .wp-block-button.ornament-button {
     background: url(https://hobbygalaxia.com/wp-content/themes/hobbygalaxia/ornament/button-ornament-white.svg) center / 100% 100% no-repeat !important;
@@ -383,7 +469,7 @@
   }
   
   .wp-block-button.ornament-button .wp-block-button__link {
-    font-family: var(--wp--preset--font-family--cormorant);
+    font-family: var(--wp--preset--font-family--bodoni-moda);
     color: #fff !important;
     border: 0 !important;
     background: none !important;
@@ -490,4 +576,22 @@
   .woocommerce div.product form.cart button[name=add-to-cart]:active {
     color: #000;
     background: transparent;
+  }
+
+  .single .entry-content > p:first-of-type {
+    font-size: 140%!important;
+    font-family: var(--wp--preset--font-family--bodoni-moda);
+    font-weight:normal;
+  }
+
+  .woocommerce.wc-block-catalog-sorting select.orderby {
+    font-size: 0.7rem;
+    border: 2px solid var(--wp--preset--color--foreground);
+    background: #fff09d;
+    color: var(--wp--preset--color--foreground);
+    border-radius: 4px;
+    height: 30px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    width: auto;
   }

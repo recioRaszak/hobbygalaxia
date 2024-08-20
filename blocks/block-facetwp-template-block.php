@@ -1,3 +1,6 @@
+
+<div class="genesis-custom-block">
+
 <section class="buscador-searchbox-wrapper">
     <div class="container" style="font-size:2rem">
         <?php echo do_shortcode('[facetwp facet="buscador"]'); ?>
@@ -18,6 +21,7 @@
 
         .buscador-searchbox-wrapper {
             padding:10px;
+            text-align: center;
         }
         #buscador {
             padding: 0 !important;
@@ -209,3 +213,4 @@
         data-src="https://hobbygalaxia.b-cdn.net/wp-content/uploads/2024/07/svg-close.svg" alt="Cerrar"
         class="wp-image-4569 lazy" style="object-fit:cover;width:40px;height:40px">
 </figure>
+</div>
