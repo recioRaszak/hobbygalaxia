@@ -137,7 +137,7 @@ function rc_modify_query_product($query)
 
 	// Check if on frontend and main query is modified
 	if (!is_admin() && $query->get_post_type() == 'product') {
-		$query->set('posts_per_page', '40');
+		$query->set('posts_per_page', '50');
 	} // end if
 }
 
@@ -172,6 +172,7 @@ function footerInlineScript()
 						$(thisImg).removeAttr('data-srcset');
 						$(thisImg).removeAttr('data-sizes');
 						$(thisImg).attr('src', picURL);
+						$(thisImg).removeClass('error');
 
 					}
 
@@ -197,13 +198,14 @@ function footerInlineScript()
 							$(thisImg).removeAttr('data-srcset');
 							$(thisImg).removeAttr('data-sizes');
 							$(thisImg).attr('src', picURL);
-
+							$(thisImg).removeClass('error');
 						}
 
 					})
 				}
 				FWPprovisionalImages();
 			});
+
 			<?php
 			if ( is_singular('product') ) {
 				$product_postid = get_the_ID();
@@ -211,10 +213,20 @@ function footerInlineScript()
 				?>
 				function singleProductFixImage() {
 				$('.woocommerce-product-gallery__image--placeholder img').removeClass('lazy').removeAttr('data-src');
-				$('.woocommerce-product-gallery__image img.error').attr('src','<?php echo $external_image_url;?>');
+				$('.woocommerce-product-gallery__image img.error').attr('src','<?php echo $external_image_url;?>').addClass('fixed');
+				$('img.fixed').removeClass('error');
 				}
 				setTimeout(singleProductFixImage, 500);
 				<?php
+			}
+			?>
+
+			<?php if ( is_page('wishlist') || is_page('favoritos') || is_page('mis-favoritos') || is_page('my-wishlists')
+			|| is_page('lista-de-deseos') || is_page('listas-de-deseos') || is_page('mis-listas-de-deseos')
+			) { ?>
+			
+				let tabsui = $()
+			<?php
 			}
 			?>
 
@@ -389,7 +401,21 @@ add_action( 'wp_head', function() {
 
 
 
-
+/**
+ * Change number of related products output
+ */ 
+function woo_related_products_limit() {
+	global $product;
+	  
+	  $args['posts_per_page'] = 15;
+	  return $args;
+  }
+  add_filter( 'woocommerce_output_related_products_args', 'jk_related_products_args', 20 );
+	function jk_related_products_args( $args ) {
+	  $args['posts_per_page'] = 15; // 4 related products
+	  //$args['columns'] = 2; // arranged in 2 columns
+	  return $args;
+  }
 
 
 

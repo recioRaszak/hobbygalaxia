@@ -8,7 +8,10 @@
 </section>
 <section class="main-search">
     <div class="panel-left">
+        <?php echo do_shortcode('[facetwp facet="reset"]'); ?>
         <?php echo do_shortcode('[facetwp facet="categories"]'); ?>
+        <?php echo do_shortcode('[facetwp facet="precio"]'); ?>
+        
     </div>
     <div class="panel-results">
         <?php echo do_shortcode('[facetwp template="facet_list_productos"]'); ?>

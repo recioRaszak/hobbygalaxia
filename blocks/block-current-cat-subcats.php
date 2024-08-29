@@ -1,4 +1,22 @@
 <style>
+    .current-cat-subcats {
+        overflow:hidden;
+        transition:2s;
+        max-height:9999px;
+        position:relative;
+    }
+
+    .current-cat-subcats.somesubcats {
+        max-height:120px;
+        padding-bottom:40px;
+    }
+    .current-cat-subcats.somesubcats::after {
+        content:"(...)";
+        position:absolute;
+        left:0;
+        bottom:-5px;
+    }
+
     .current-cat-subcats .product-subcats {
     margin-left:0;
     padding-left:0;
@@ -44,6 +62,8 @@ if ( is_tax() ) {
         echo "<h2 class='current-cat-subcats--title'>".__("Subcategorias", "hobbygalaxia")."</h2>";
         print_child_terms($qobjct, 999, false);
         echo "</section>"; // Print up to 5 child terms
+        echo "<p class='product-subcats-showall hidden' style='cursor:pointer;margin-bottom:30px;text-decoration:underline;max-width:var(--wp--style--global--wide-size);'><strong>+ ".__("Mostrar más subcategorías", "hobbygalaxia")."</strong></p>";
+       
         ?>
         <script>
             jQuery(document).ready(function($){
@@ -51,6 +71,15 @@ if ( is_tax() ) {
                 if ( !subcats.length ) {
                     $('.current-cat-subcats--title').remove();
                 }
+                if ( subcats.length > 8 ) {
+                   $('.current-cat-subcats').addClass('somesubcats');
+                   $('.product-subcats-showall').removeClass('hidden');
+                }
+                $('.product-subcats-showall').on('click', function(e) {
+                    e.preventDefault();
+                    $('.current-cat-subcats').removeClass('somesubcats');
+                    $(this).addClass('hidden');
+                });
             });
         </script>
         <?php

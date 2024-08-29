@@ -13,11 +13,22 @@
 .wp-block-woocommerce-checkout-order-summary-totals-block,
 .is-large .wp-block-woocommerce-checkout-order-summary-block,
 .wc-block-components-totals-wrapper,
-.wc-block-checkout__terms.wc-block-checkout__terms--with-separator {
+.wc-block-checkout__terms.wc-block-checkout__terms--with-separator,
+.woocommerce table.shop_table,
+.woocommerce table.shop_table td,
+.woocommerce table.shop_table th {
     border-color:var(--wp--preset--color--foreground);
     border-width:2px;
+    border-radius: 0;
 }
 
 .is-large .wp-block-woocommerce-checkout-order-summary-block {
     border-width:4px;
+}
+
+.woocommerce table.shop_table,
+.woocommerce table.shop_table td,
+.woocommerce table.shop_table th  {
+    border-left:0;
+    border-right:0;
 }
