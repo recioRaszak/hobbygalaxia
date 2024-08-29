@@ -10,10 +10,13 @@
     <div class="panel-left">
         <?php echo do_shortcode('[facetwp facet="reset"]'); ?>
         <?php echo do_shortcode('[facetwp facet="categories"]'); ?>
+        <h4 class="facetwp-titles"><?php echo __('Precio máximo','hobbygalaxia');?></h4>
         <?php echo do_shortcode('[facetwp facet="precio"]'); ?>
-        
     </div>
     <div class="panel-results">
+        <div style="text-align:right">
+            <?php echo do_shortcode('[facetwp facet="orden"]'); ?>
+        </div>
         <?php echo do_shortcode('[facetwp template="facet_list_productos"]'); ?>
         <?php echo do_shortcode('[facetwp facet="ver_mas"]'); ?>
     </div>

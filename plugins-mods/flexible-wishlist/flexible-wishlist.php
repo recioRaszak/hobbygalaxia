@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Flexible Wishlist
+ * Plugin Name: Flexible Wishlist HACKED
  * Description: Let your customers create their own multiple and intuitive WooCommerce wishlists and customize them entirely to their needs.
- * Version: 1.2.19
+ * Version: 3.3.3
  * Author: WP Desk
  * Author URI: https://www.wpdesk.net/
  * Text Domain: flexible-wishlist

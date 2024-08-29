@@ -224,8 +224,27 @@ function footerInlineScript()
 			<?php if ( is_page('wishlist') || is_page('favoritos') || is_page('mis-favoritos') || is_page('my-wishlists')
 			|| is_page('lista-de-deseos') || is_page('listas-de-deseos') || is_page('mis-listas-de-deseos')
 			) { ?>
-			
-				let tabsui = $()
+		console.log('es pagina favoritos	');
+				if ( $('*[data-fw-wishlist-id]').length || $('*[data-fw-item-id]').length ) {
+					$('body').addClass('wishlist-page');
+					console.log('hay tabla de favoritos');
+				}
+				$('.wishlist-page .entry-content .woocommerce').after('<div class="woocommerce-user-tabs-ui woocommerce-account alignwide hidden"></div>');
+
+				let wishlistTable = $('.wishlist-page .entry-content .woocommerce').html();
+				$('.wishlist-page .entry-content .woocommerce').remove();
+
+				$('.woocommerce-user-tabs-ui').load('<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?> .entry-content > .alignwide', function(){
+					$('.woocommerce-user-tabs-ui .woocommerce-MyAccount-content p').remove();
+					$(wishlistTable).appendTo('.woocommerce-user-tabs-ui .woocommerce-MyAccount-content').addClass('wishlist-cloned-inside');
+					$('.woocommerce-user-tabs-ui').removeClass('hidden');
+					$('.woocommerce-MyAccount-content button').addClass('wp-element-button');
+					$('.woocommerce-MyAccount-navigation-link--dashboard').removeClass('is-active');
+					$('.woocommerce-MyAccount-navigation-link--fw-wishlist').addClass('is-active');
+				});
+
+
+
 			<?php
 			}
 			?>
@@ -237,6 +256,12 @@ function footerInlineScript()
 }
 add_action('wp_footer', 'footerInlineScript');
 
+if ( is_page('wishlist') || is_page('favoritos') || is_page('mis-favoritos') || is_page('my-wishlists')
+			|| is_page('lista-de-deseos') || is_page('listas-de-deseos') || is_page('mis-listas-de-deseos')
+			) { ?>
+<script src="<?php get_bloginfo('url'); ?>/wp-content/plugins/flexible-wishlist/assets/js/front.js"></script>
+
+<?php }
 
 
 
@@ -328,11 +353,19 @@ add_action('wp_footer', function () { ?>
 	<script>
 		(function ($) {
 
+			function focusSearch() {
+				$('input.facetwp-search').focus();
+			}
+
 			$('[data-toggle="#categorias"]').on('click', function () {
 				$('#buscador"]').css('display','none');
 			});
 			$('[data-toggle="#buscador"]').on('click', function () {
-				$('#categorias"]').css('display','none');
+				$('#categorias').css('display','none');
+			});
+
+			$('.buscador-button').on('click', function () {
+				setTimeout(focusSearch,500);
 			});
 
 			// Accordion part 1: toggle 'opened' class on click of icons and close other parents on the same level
@@ -392,12 +425,26 @@ add_action( 'wp_head', function() {
 		// Add class 'visible' after refresh, but not on the first page load
 		if ( FWP.loaded ) {
 		  fUtil('.facetwp-template').addClass('visible');
+		  fUtil('.facetwp-reset').addClass('wp-element-button');
 		}
 	  });
+	  
 	</script>
 	<?php
   }, 100 );
 
+
+  add_filter( 'facetwp_shortcode_html', function( $output, $atts ) {
+	if ( 
+		( isset( $atts['facet'] ) && 'reset' == $atts['facet'] ) || 
+		( isset( $atts['facet'] ) && 'facetwp-reset' == $atts['facet'] )
+	) { // Change "my_facet_name" to the name of your facet
+	  $output = str_replace( 'facetwp-reset', 'facetwp-reset wp-element-button ', $output );  // Change "my_facet_name" to the name of your facet and "my-class" to the name of your custom class.
+	  // Change "my_facet_name" to the name of your facet and "my-class" to the name of your custom class.
+	}
+	return $output;
+  }, 10, 2 );
+  
 
 
 
